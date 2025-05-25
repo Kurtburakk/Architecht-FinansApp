@@ -1,5 +1,6 @@
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/bin/Debug/net9.0/appsettings.Development.json
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/bin/Debug/net9.0/appsettings.json
+/Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/bin/Debug/net9.0/backend.staticwebassets.runtime.json
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/bin/Debug/net9.0/backend.staticwebassets.endpoints.json
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/bin/Debug/net9.0/backend
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/bin/Debug/net9.0/backend.deps.json
@@ -93,6 +94,7 @@
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/backend.MvcApplicationPartsAssemblyInfo.cache
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/backend.sourcelink.json
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/scopedcss/bundle/backend.styles.css
+/Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/compressed/0yulyb0yu6-bzbtf2obfi.gz
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/staticwebassets.build.json
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/staticwebassets.build.json.cache
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/staticwebassets.development.json

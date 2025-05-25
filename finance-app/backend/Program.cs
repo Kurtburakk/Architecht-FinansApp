@@ -1,17 +1,17 @@
 using Backend.Models;
+using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 
-// ... diğer kodların üstünde
-using CsvHelper;
-using System.Globalization;
-
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+builder.Services.AddScoped<ICurrencyService, MockCurrencyService>();
+builder.Services.AddScoped<IExternalBankService, MockExternalBankService>();
 
 builder.Services.AddDbContext<FinanceAppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")))
 );
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -27,6 +27,11 @@ using (var scope = app.Services.CreateScope())
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseDefaultFiles(); // ÖNCE BUNU
+app.UseStaticFiles();  // SONRA BUNU
+
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();
