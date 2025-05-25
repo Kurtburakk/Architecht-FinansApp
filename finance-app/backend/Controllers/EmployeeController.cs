@@ -36,7 +36,7 @@ namespace Backend.Controllers
             if (id != emp.EmployeeNumber) return BadRequest();
             _context.Entry(emp).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(new { message = "Çalışan güncellendi.", employee = emp });
         }
 
         [HttpDelete("{id}")]
@@ -46,7 +46,7 @@ namespace Backend.Controllers
             if (emp == null) return NotFound();
             _context.Employees.Remove(emp);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(new { message = "Çalışan silindi.", employee = emp });
         }
     }
 }
