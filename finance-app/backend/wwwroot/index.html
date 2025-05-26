@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <title>FinansApp - Banka Uygulaması</title>
@@ -7,460 +8,523 @@
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: #f8f9fa; }
-        .main-btns { margin: 80px 0 40px 0; display: flex; justify-content: center; gap: 2rem; }
-        .main-btns .btn-lg { min-width: 220px; min-height: 80px; font-size: 1.5rem; font-weight: bold; }
-        .hidden { display: none !important; }
-        .section-card { max-width: 950px; margin: 0 auto; }
-        .navbar-brand { font-weight: bold; letter-spacing: 1px; }
+        body {
+            background: #f8f9fa;
+        }
+
+        .main-btns {
+            margin: 80px 0 40px 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .main-btns .btn-lg {
+            min-width: 220px;
+            min-height: 80px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .section-card {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showSection('home')">FinansApp</a>
+        </div>
+    </nav>
+
     <div class="container">
-        <a class="navbar-brand" href="#" onclick="showSection('home')">FinansApp</a>
-    </div>
-</nav>
-
-<div class="container">
-    <!-- Ana Butonlar -->
-    <div id="home-section" class="main-btns">
-        <button class="btn btn-outline-primary btn-lg" onclick="showSection('employees')">Employees</button>
-        <button class="btn btn-outline-success btn-lg" onclick="showSection('transactions')">Transactions</button>
-        <button class="btn btn-outline-warning btn-lg" onclick="showSection('transfers')">Transfers</button>
-    </div>
-<!-- Employees Section -->
-<div id="employees-section" class="hidden section-card">
-    <div class="card shadow">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <strong>Employees</strong>
-            <button class="btn btn-link" onclick="showSection('home')">← Main Menu</button>
+        <!-- Ana Butonlar -->
+        <div id="home-section" class="main-btns">
+            <button class="btn btn-outline-primary btn-lg" onclick="showSection('employees')">Employees</button>
+            <button class="btn btn-outline-success btn-lg" onclick="showSection('transactions')">Transactions</button>
+            <button class="btn btn-outline-warning btn-lg" onclick="showSection('transfers')">Transfers</button>
         </div>
-        <div class="card-body">
+        <!-- Employees Section -->
+        <div id="employees-section" class="hidden section-card">
+            <div class="card shadow">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <strong>Employees</strong>
+                    <button class="btn btn-link" onclick="showSection('home')">← Main Menu</button>
+                </div>
+                <div class="card-body">
 
-            <!-- Add Button -->
-            <div class="mb-3">
-                <button class="btn btn-success" onclick="showEmployeeModal('add')">Add Employee</button>
+                    <!-- Add Button -->
+                    <div class="mb-3">
+                        <button class="btn btn-success" onclick="showEmployeeModal('add')">Add Employee</button>
+                    </div>
+
+                    <!-- Search by Employee Number -->
+                    <form id="employee-search-form" class="row g-2 mb-3">
+                        <div class="col-sm-4 col-8">
+                            <input type="number" class="form-control" id="searchEmployeeNumber"
+                                placeholder="Find by Employee Number">
+                        </div>
+                        <div class="col-sm-2 col-4">
+                            <button type="submit" class="btn btn-primary w-100">Find</button>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <button type="button" class="btn btn-secondary w-100" onclick="fetchEmployees()">Show
+                                All</button>
+                        </div>
+                    </form>
+
+                    <div class="table-responsive" style="max-height:55vh;">
+                        <table class="table table-striped table-sm align-middle">
+                            <thead id="employees-table-head"></thead>
+                            <tbody id="employees-table"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <!-- Search by Employee Number -->
-            <form id="employee-search-form" class="row g-2 mb-3">
-                <div class="col-sm-4 col-8">
-                    <input type="number" class="form-control" id="searchEmployeeNumber" placeholder="Find by Employee Number">
-                </div>
-                <div class="col-sm-2 col-4">
-                    <button type="submit" class="btn btn-primary w-100">Find</button>
-                </div>
-                <div class="col-sm-6 col-12">
-                    <button type="button" class="btn btn-secondary w-100" onclick="fetchEmployees()">Show All</button>
-                </div>
-            </form>
 
-            <div class="table-responsive" style="max-height:55vh;">
-                <table class="table table-striped table-sm align-middle">
-                    <thead id="employees-table-head"></thead>
-                    <tbody id="employees-table"></tbody>
-                </table>
+        <!-- Add/Edit Employee Modal -->
+        <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <form id="employee-modal-form">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="employeeModalLabel">Employee</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row g-3" id="employee-modal-fields"></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="employee-modal-submit-btn">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Transactions Bölümü -->
+        <div id="transactions-section" class="hidden section-card">
+            <div class="card shadow">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <strong>Transactions</strong>
+                    <button class="btn btn-link" onclick="showSection('home')">← Main Menu</button>
+                </div>
+                <div class="card-body">
+                    <!-- Filtreleme Alanları -->
+                    <form id="transaction-filter-form" class="row g-2 mb-3">
+                        <div class="col-md-2 col-6">
+                            <input type="number" class="form-control" id="filterEmployeeNumber"
+                                placeholder="Employee No" required>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="text" class="form-control" id="filterCategory" placeholder="Category">
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="date" class="form-control" id="filterStartDate" placeholder="Start Date">
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="date" class="form-control" id="filterEndDate" placeholder="End Date">
+                        </div>
+                        <div class="col-md-4 col-12 d-flex flex-wrap gap-1">
+                            <button type="submit" class="btn btn-primary">Apply Filter</button>
+                            <button type="button" class="btn btn-secondary" onclick="fetchAllTransactions()">All
+                                Transactions</button>
+                            <button type="button" class="btn btn-outline-secondary"
+                                onclick="fetchEmployeeTransactions()">Employee's All</button>
+                            <button type="button" class="btn btn-outline-warning"
+                                onclick="fetchSummaryByCategory()">Summary by Category</button>
+                        </div>
+                    </form>
+
+                    <form id="transaction-form" class="row g-2 mb-3">
+                        <input type="hidden" id="transaction-id">
+                        <div class="col-md-2 col-6">
+                            <input type="number" class="form-control" id="transEmployeeNumber" placeholder="Employee No"
+                                required>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="number" step="0.01" class="form-control" id="amount" placeholder="Amount"
+                                required>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="text" class="form-control" id="category" placeholder="Category" required>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="text" class="form-control" id="description" placeholder="Description" required>
+                        </div>
+                        <div class="col-md-3 col-8">
+                            <input type="datetime-local" class="form-control" id="transactionDate" required>
+                        </div>
+                        <div class="col-md-1 col-4">
+                            <button type="submit" class="btn btn-success w-100" id="add-update-btn">Add</button>
+                        </div>
+                    </form>
+                    <button class="btn btn-outline-secondary mb-3" onclick="showCurrencyModal()">Convert to
+                        Currency</button>
+                    <table class="table table-striped" id="transactions-table-main">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Employee</th>
+                                <th>Amount</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-table"></tbody>
+                    </table>
+                    <div id="transactions-summary" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transfers Bölümü -->
+        <div id="transfers-section" class="hidden section-card">
+            <div class="card shadow">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <strong>Transfers</strong>
+                    <button class="btn btn-link" onclick="showSection('home')">← Main Menu</button>
+                </div>
+                <div class="card-body">
+                    <form id="transfer-form" class="row g-2 mb-3">
+                        <input type="hidden" id="transfer-id">
+                        <div class="col-md-2 col-6">
+                            <input type="number" class="form-control" id="fromEmployeeNumber"
+                                placeholder="From (Emp. No)" required>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="number" class="form-control" id="toEmployeeNumber" placeholder="To (Emp. No)">
+                        </div>
+                        <div class="col-md-3 col-8">
+                            <input type="text" class="form-control" id="externalBankIban"
+                                placeholder="External Bank IBAN">
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="number" step="0.01" class="form-control" id="transferAmount"
+                                placeholder="Amount" required>
+                        </div>
+                        <div class="col-md-2 col-6">
+                            <input type="text" class="form-control" id="transferDescription" placeholder="Description"
+                                required>
+                        </div>
+                        <div class="col-md-1 col-12">
+                            <input type="datetime-local" class="form-control" id="transferDate" required>
+                        </div>
+                        <div class="col-md-1 col-12">
+                            <button type="submit" class="btn btn-success w-100"
+                                id="add-update-transfer-btn">Add</button>
+                        </div>
+                    </form>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>IBAN</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transfers-table"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-
-<!-- Add/Edit Employee Modal -->
-<div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <form id="employee-modal-form">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="employeeModalLabel">Employee</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row g-3" id="employee-modal-fields"></div>
+    <!-- Currency Modal -->
+    <div class="modal fade" id="currencyModal" tabindex="-1" aria-labelledby="currencyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="currency-form">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="currencyModalLabel">Convert Transaction Amount</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="employee-modal-submit-btn">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-    <!-- Transactions Bölümü -->
-    <div id="transactions-section" class="hidden section-card">
-        <div class="card shadow">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <strong>Transactions</strong>
-                <button class="btn btn-link" onclick="showSection('home')">← Main Menu</button>
-            </div>
-            <div class="card-body">
-                <form id="transaction-form" class="row g-2 mb-3">
-                    <input type="hidden" id="transaction-id">
-                    <div class="col-md-2 col-6">
-                        <input type="number" class="form-control" id="transEmployeeNumber" placeholder="Employee No" required>
+                    <div class="modal-body">
+                        <div class="mb-2">
+                            <label class="form-label">Transaction ID</label>
+                            <input type="number" class="form-control" id="currencyTransactionId" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Target Currency (USD, EUR, etc)</label>
+                            <input type="text" class="form-control" id="currencyTarget" required>
+                        </div>
+                        <div class="mb-2" id="currencyResult"></div>
                     </div>
-                    <div class="col-md-2 col-6">
-                        <input type="number" step="0.01" class="form-control" id="amount" placeholder="Amount" required>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <input type="text" class="form-control" id="category" placeholder="Category" required>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <input type="text" class="form-control" id="description" placeholder="Description" required>
-                    </div>
-                    <div class="col-md-3 col-8">
-                        <input type="datetime-local" class="form-control" id="transactionDate" required>
-                    </div>
-                    <div class="col-md-1 col-4">
-                        <button type="submit" class="btn btn-success w-100" id="add-update-btn">Add</button>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Convert</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
-                <button class="btn btn-outline-secondary mb-3" onclick="showCurrencyModal()">Convert to Currency</button>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Employee</th>
-                            <th>Amount</th>
-                            <th>Category</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="transactions-table"></tbody>
-                </table>
             </div>
         </div>
     </div>
 
-    <!-- Transfers Bölümü -->
-    <div id="transfers-section" class="hidden section-card">
-        <div class="card shadow">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <strong>Transfers</strong>
-                <button class="btn btn-link" onclick="showSection('home')">← Main Menu</button>
-            </div>
-            <div class="card-body">
-                <form id="transfer-form" class="row g-2 mb-3">
-                    <input type="hidden" id="transfer-id">
-                    <div class="col-md-2 col-6">
-                        <input type="number" class="form-control" id="fromEmployeeNumber" placeholder="From (Emp. No)" required>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <input type="number" class="form-control" id="toEmployeeNumber" placeholder="To (Emp. No)">
-                    </div>
-                    <div class="col-md-3 col-8">
-                        <input type="text" class="form-control" id="externalBankIban" placeholder="External Bank IBAN">
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <input type="number" step="0.01" class="form-control" id="transferAmount" placeholder="Amount" required>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <input type="text" class="form-control" id="transferDescription" placeholder="Description" required>
-                    </div>
-                    <div class="col-md-1 col-12">
-                        <input type="datetime-local" class="form-control" id="transferDate" required>
-                    </div>
-                    <div class="col-md-1 col-12">
-                        <button type="submit" class="btn btn-success w-100" id="add-update-transfer-btn">Add</button>
-                    </div>
-                </form>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>From</th>
-                            <th>To</th>
-                            <th>IBAN</th>
-                            <th>Amount</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="transfers-table"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const apiBase = "http://localhost:5216/api";
 
-<!-- Currency Modal -->
-<div class="modal fade" id="currencyModal" tabindex="-1" aria-labelledby="currencyModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form id="currency-form">
-        <div class="modal-header">
-          <h5 class="modal-title" id="currencyModalLabel">Convert Transaction Amount</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-2">
-            <label class="form-label">Transaction ID</label>
-            <input type="number" class="form-control" id="currencyTransactionId" required>
-          </div>
-          <div class="mb-2">
-            <label class="form-label">Target Currency (USD, EUR, etc)</label>
-            <input type="text" class="form-control" id="currencyTarget" required>
-          </div>
-          <div class="mb-2" id="currencyResult"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Convert</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+        // Ekranlar Arası Geçiş
+        function showSection(section) {
+            ['home', 'employees', 'transactions', 'transfers'].forEach(id => {
+                document.getElementById(id + '-section').classList.add('hidden');
+            });
+            document.getElementById(section + '-section').classList.remove('hidden');
+            if (section === "employees") fetchEmployees();
+            if (section === "transactions") fetchTransactions();
+            if (section === "transfers") fetchTransfers();
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-const apiBase = "http://localhost:5216/api";
+        const employeeFields = [
+            "employeeNumber", "age", "attrition", "businessTravel", "dailyRate", "department", "distanceFromHome", "education",
+            "educationField", "employeeCount", "environmentSatisfaction", "gender", "hourlyRate", "jobInvolvement", "jobLevel",
+            "jobRole", "jobSatisfaction", "maritalStatus", "monthlyIncome", "monthlyRate", "numCompaniesWorked", "over18",
+            "overTime", "percentSalaryHike", "performanceRating", "relationshipSatisfaction", "standardHours", "stockOptionLevel",
+            "totalWorkingYears", "trainingTimesLastYear", "workLifeBalance", "yearsAtCompany", "yearsInCurrentRole",
+            "yearsSinceLastPromotion", "yearsWithCurrManager"
+        ];
 
-// Ekranlar Arası Geçiş
-function showSection(section) {
-    ['home', 'employees', 'transactions', 'transfers'].forEach(id => {
-        document.getElementById(id + '-section').classList.add('hidden');
-    });
-    document.getElementById(section + '-section').classList.remove('hidden');
-    if(section === "employees") fetchEmployees();
-    if(section === "transactions") fetchTransactions();
-    if(section === "transfers") fetchTransfers();
-}
+        const employeeFieldLabels = {
+            employeeNumber: "Employee Number",
+            age: "Age",
+            attrition: "Attrition",
+            businessTravel: "Business Travel",
+            dailyRate: "Daily Rate",
+            department: "Department",
+            distanceFromHome: "Distance From Home",
+            education: "Education",
+            educationField: "Education Field",
+            employeeCount: "Employee Count",
+            environmentSatisfaction: "Environment Satisfaction",
+            gender: "Gender",
+            hourlyRate: "Hourly Rate",
+            jobInvolvement: "Job Involvement",
+            jobLevel: "Job Level",
+            jobRole: "Job Role",
+            jobSatisfaction: "Job Satisfaction",
+            maritalStatus: "Marital Status",
+            monthlyIncome: "Monthly Income",
+            monthlyRate: "Monthly Rate",
+            numCompaniesWorked: "Num Companies Worked",
+            over18: "Over 18",
+            overTime: "Over Time",
+            percentSalaryHike: "Percent Salary Hike",
+            performanceRating: "Performance Rating",
+            relationshipSatisfaction: "Relationship Satisfaction",
+            standardHours: "Standard Hours",
+            stockOptionLevel: "Stock Option Level",
+            totalWorkingYears: "Total Working Years",
+            trainingTimesLastYear: "Training Times Last Year",
+            workLifeBalance: "Work Life Balance",
+            yearsAtCompany: "Years At Company",
+            yearsInCurrentRole: "Years In Current Role",
+            yearsSinceLastPromotion: "Years Since Last Promotion",
+            yearsWithCurrManager: "Years With Curr Manager"
+        };
 
-const employeeFields = [
-    "employeeNumber", "age", "attrition", "businessTravel", "dailyRate", "department", "distanceFromHome", "education",
-    "educationField", "employeeCount", "environmentSatisfaction", "gender", "hourlyRate", "jobInvolvement", "jobLevel",
-    "jobRole", "jobSatisfaction", "maritalStatus", "monthlyIncome", "monthlyRate", "numCompaniesWorked", "over18",
-    "overTime", "percentSalaryHike", "performanceRating", "relationshipSatisfaction", "standardHours", "stockOptionLevel",
-    "totalWorkingYears", "trainingTimesLastYear", "workLifeBalance", "yearsAtCompany", "yearsInCurrentRole",
-    "yearsSinceLastPromotion", "yearsWithCurrManager"
-];
+        const employeeFieldTypes = {
+            employeeNumber: "number",
+            age: "number",
+            dailyRate: "number",
+            distanceFromHome: "number",
+            education: "number",
+            employeeCount: "number",
+            environmentSatisfaction: "number",
+            hourlyRate: "number",
+            jobInvolvement: "number",
+            jobLevel: "number",
+            jobSatisfaction: "number",
+            monthlyIncome: "number",
+            monthlyRate: "number",
+            numCompaniesWorked: "number",
+            percentSalaryHike: "number",
+            performanceRating: "number",
+            relationshipSatisfaction: "number",
+            standardHours: "number",
+            stockOptionLevel: "number",
+            totalWorkingYears: "number",
+            trainingTimesLastYear: "number",
+            workLifeBalance: "number",
+            yearsAtCompany: "number",
+            yearsInCurrentRole: "number",
+            yearsSinceLastPromotion: "number",
+            yearsWithCurrManager: "number"
+        };
 
-const employeeFieldLabels = {
-    employeeNumber: "Employee Number",
-    age: "Age",
-    attrition: "Attrition",
-    businessTravel: "Business Travel",
-    dailyRate: "Daily Rate",
-    department: "Department",
-    distanceFromHome: "Distance From Home",
-    education: "Education",
-    educationField: "Education Field",
-    employeeCount: "Employee Count",
-    environmentSatisfaction: "Environment Satisfaction",
-    gender: "Gender",
-    hourlyRate: "Hourly Rate",
-    jobInvolvement: "Job Involvement",
-    jobLevel: "Job Level",
-    jobRole: "Job Role",
-    jobSatisfaction: "Job Satisfaction",
-    maritalStatus: "Marital Status",
-    monthlyIncome: "Monthly Income",
-    monthlyRate: "Monthly Rate",
-    numCompaniesWorked: "Num Companies Worked",
-    over18: "Over 18",
-    overTime: "Over Time",
-    percentSalaryHike: "Percent Salary Hike",
-    performanceRating: "Performance Rating",
-    relationshipSatisfaction: "Relationship Satisfaction",
-    standardHours: "Standard Hours",
-    stockOptionLevel: "Stock Option Level",
-    totalWorkingYears: "Total Working Years",
-    trainingTimesLastYear: "Training Times Last Year",
-    workLifeBalance: "Work Life Balance",
-    yearsAtCompany: "Years At Company",
-    yearsInCurrentRole: "Years In Current Role",
-    yearsSinceLastPromotion: "Years Since Last Promotion",
-    yearsWithCurrManager: "Years With Curr Manager"
-};
+        const employeeSelectFields = {
+            attrition: ["Yes", "No"],
+            businessTravel: ["Travel_Rarely", "Travel_Frequently", "Non-Travel"],
+            gender: ["Male", "Female"],
+            maritalStatus: ["Single", "Married", "Divorced"],
+            over18: ["Y", "N"],
+            overTime: ["Yes", "No"]
+        };
 
-const employeeFieldTypes = {
-    employeeNumber: "number",
-    age: "number",
-    dailyRate: "number",
-    distanceFromHome: "number",
-    education: "number",
-    employeeCount: "number",
-    environmentSatisfaction: "number",
-    hourlyRate: "number",
-    jobInvolvement: "number",
-    jobLevel: "number",
-    jobSatisfaction: "number",
-    monthlyIncome: "number",
-    monthlyRate: "number",
-    numCompaniesWorked: "number",
-    percentSalaryHike: "number",
-    performanceRating: "number",
-    relationshipSatisfaction: "number",
-    standardHours: "number",
-    stockOptionLevel: "number",
-    totalWorkingYears: "number",
-    trainingTimesLastYear: "number",
-    workLifeBalance: "number",
-    yearsAtCompany: "number",
-    yearsInCurrentRole: "number",
-    yearsSinceLastPromotion: "number",
-    yearsWithCurrManager: "number"
-};
-
-const employeeSelectFields = {
-    attrition: ["Yes", "No"],
-    businessTravel: ["Travel_Rarely", "Travel_Frequently", "Non-Travel"],
-    gender: ["Male", "Female"],
-    maritalStatus: ["Single", "Married", "Divorced"],
-    over18: ["Y", "N"],
-    overTime: ["Yes", "No"]
-};
-
-function buildEmployeeRow(e) {
-    return employeeFields.map(f => `<td>${e[f] ?? ""}</td>`).join("") +
-        `<td>
+        function buildEmployeeRow(e) {
+            return employeeFields.map(f => `<td>${e[f] ?? ""}</td>`).join("") +
+                `<td>
             <button class="btn btn-sm btn-warning" onclick='showEmployeeModal("edit", ${e.employeeNumber})'>Edit</button>
             <button class="btn btn-sm btn-danger" onclick="deleteEmployee(${e.employeeNumber})">Delete</button>
         </td>`;
-}
-
-async function fetchEmployees() {
-    const res = await fetch("http://localhost:5216/api/employee");
-    const data = await res.json();
-
-    // Table headers
-    const thead = document.getElementById("employees-table-head");
-    thead.innerHTML = "<tr>" + employeeFields.map(f=>`<th>${employeeFieldLabels[f]}</th>`).join("") + "<th>Actions</th></tr>";
-
-    // Table body
-    const tbody = document.getElementById("employees-table");
-    tbody.innerHTML = "";
-    data.forEach(e => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = buildEmployeeRow(e);
-        tbody.appendChild(tr);
-    });
-}
-
-async function showEmployeeDetail(employeeNumber) {
-    const res = await fetch(`http://localhost:5216/api/employee/${employeeNumber}`);
-    if (!res.ok) { alert("Employee not found."); return; }
-    const e = await res.json();
-    const thead = document.getElementById("employees-table-head");
-    thead.innerHTML = "<tr>" + employeeFields.map(f=>`<th>${employeeFieldLabels[f]}</th>`).join("") + "<th>Actions</th></tr>";
-    const tbody = document.getElementById("employees-table");
-    tbody.innerHTML = "";
-    const tr = document.createElement("tr");
-    tr.innerHTML = buildEmployeeRow(e);
-    tbody.appendChild(tr);
-}
-
-// Arama formu
-document.getElementById("employee-search-form").onsubmit = function(e) {
-    e.preventDefault();
-    const num = document.getElementById("searchEmployeeNumber").value;
-    if(num) showEmployeeDetail(num);
-    else fetchEmployees();
-};
-
-// Add/Edit modalı göster
-async function showEmployeeModal(mode, employeeNumber = null) {
-    // Dynamic form
-    const fieldsDiv = document.getElementById("employee-modal-fields");
-    fieldsDiv.innerHTML = "";
-
-    let values = {};
-    if(mode === "edit" && employeeNumber !== null) {
-        const res = await fetch(`http://localhost:5216/api/employee/${employeeNumber}`);
-        if (!res.ok) { alert("Employee not found."); return; }
-        values = await res.json();
-    }
-
-    employeeFields.forEach(f => {
-        const col = document.createElement("div");
-        col.className = "col-md-4";
-        let fieldHtml = `<label class="form-label">${employeeFieldLabels[f]}</label>`;
-
-        if(employeeSelectFields[f]) {
-            fieldHtml += `<select class="form-select" name="${f}" ${mode==="add" && f==="employeeNumber" ? "" : ""} ${f==="employeeNumber" && mode==="edit" ? "readonly disabled" : ""} required>`;
-            fieldHtml += `<option value="">Select</option>`;
-            employeeSelectFields[f].forEach(opt => {
-                let selected = values[f] == opt ? "selected" : "";
-                fieldHtml += `<option value="${opt}" ${selected}>${opt}</option>`;
-            });
-            fieldHtml += "</select>";
-        } else if(employeeFieldTypes[f] === "number") {
-            fieldHtml += `<input type="number" class="form-control" name="${f}" value="${values[f] !== undefined ? values[f] : ""}" ${f==="employeeNumber" && mode==="edit" ? "readonly" : ""} required>`;
-        } else {
-            fieldHtml += `<input type="text" class="form-control" name="${f}" value="${values[f] !== undefined ? values[f] : ""}" ${f==="employeeNumber" && mode==="edit" ? "readonly" : ""} required>`;
         }
-        col.innerHTML = fieldHtml;
-        fieldsDiv.appendChild(col);
-    });
 
-    document.getElementById("employeeModalLabel").textContent = mode === "add" ? "Add Employee" : "Edit Employee";
-    document.getElementById("employee-modal-submit-btn").textContent = mode === "add" ? "Add" : "Update";
-    document.getElementById("employee-modal-form").setAttribute("data-mode", mode);
-    document.getElementById("employee-modal-form").setAttribute("data-empno", employeeNumber !== null ? employeeNumber : "");
+        async function fetchEmployees() {
+            const res = await fetch("http://localhost:5216/api/employee");
+            const data = await res.json();
 
-    new bootstrap.Modal(document.getElementById('employeeModal')).show();
-}
+            // Table headers
+            const thead = document.getElementById("employees-table-head");
+            thead.innerHTML = "<tr>" + employeeFields.map(f => `<th>${employeeFieldLabels[f]}</th>`).join("") + "<th>Actions</th></tr>";
 
-document.getElementById("employee-modal-form").onsubmit = async function(e) {
-    e.preventDefault();
-    const mode = this.getAttribute("data-mode");
-    const empNo = this.getAttribute("data-empno");
-    const formData = new FormData(this);
-    const employee = {};
-    employeeFields.forEach(k => employee[k] = formData.get(k) !== null ? formData.get(k) : "");
-    // Sayısal alanları otomatik sayıya çevir
-    ["employeeNumber","age","dailyRate","distanceFromHome","education","employeeCount","environmentSatisfaction","hourlyRate","jobInvolvement","jobLevel","jobSatisfaction","monthlyIncome","monthlyRate","numCompaniesWorked","percentSalaryHike","performanceRating","relationshipSatisfaction","standardHours","stockOptionLevel","totalWorkingYears","trainingTimesLastYear","workLifeBalance","yearsAtCompany","yearsInCurrentRole","yearsSinceLastPromotion","yearsWithCurrManager"].forEach(k => {
-        if (employee[k] && employee[k] !== "") employee[k] = Number(employee[k]);
-    });
+            // Table body
+            const tbody = document.getElementById("employees-table");
+            tbody.innerHTML = "";
+            data.forEach(e => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = buildEmployeeRow(e);
+                tbody.appendChild(tr);
+            });
+        }
 
-    let url = "http://localhost:5216/api/employee";
-    let method = "POST";
+        async function showEmployeeDetail(employeeNumber) {
+            const res = await fetch(`http://localhost:5216/api/employee/${employeeNumber}`);
+            if (!res.ok) { alert("Employee not found."); return; }
+            const e = await res.json();
+            const thead = document.getElementById("employees-table-head");
+            thead.innerHTML = "<tr>" + employeeFields.map(f => `<th>${employeeFieldLabels[f]}</th>`).join("") + "<th>Actions</th></tr>";
+            const tbody = document.getElementById("employees-table");
+            tbody.innerHTML = "";
+            const tr = document.createElement("tr");
+            tr.innerHTML = buildEmployeeRow(e);
+            tbody.appendChild(tr);
+        }
 
-    if (mode === "edit" && empNo) {
-        url += "/" + empNo;
-        method = "PUT";
-    }
+        // Arama formu
+        document.getElementById("employee-search-form").onsubmit = function (e) {
+            e.preventDefault();
+            const num = document.getElementById("searchEmployeeNumber").value;
+            if (num) showEmployeeDetail(num);
+            else fetchEmployees();
+        };
 
-    const res = await fetch(url, {
-        method,
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(employee)
-    });
-    if(res.ok) {
-        bootstrap.Modal.getInstance(document.getElementById('employeeModal')).hide();
-        fetchEmployees();
-    } else {
-        alert(mode === "add" ? "Employee could not be added. Please check your data." : "Employee could not be updated. Please check your data.");
-    }
-};
+        // Add/Edit modalı göster
+        async function showEmployeeModal(mode, employeeNumber = null) {
+            // Dynamic form
+            const fieldsDiv = document.getElementById("employee-modal-fields");
+            fieldsDiv.innerHTML = "";
 
-async function deleteEmployee(employeeNumber) {
-    if (confirm("Delete this employee?")) {
-        await fetch("http://localhost:5216/api/employee/" + employeeNumber, { method: "DELETE" });
-        fetchEmployees();
-    }
-}
+            let values = {};
+            if (mode === "edit" && employeeNumber !== null) {
+                const res = await fetch(`http://localhost:5216/api/employee/${employeeNumber}`);
+                if (!res.ok) { alert("Employee not found."); return; }
+                values = await res.json();
+            }
 
-// --- Employee API END ---
+            employeeFields.forEach(f => {
+                const col = document.createElement("div");
+                col.className = "col-md-4";
+                let fieldHtml = `<label class="form-label">${employeeFieldLabels[f]}</label>`;
+
+                if (employeeSelectFields[f]) {
+                    fieldHtml += `<select class="form-select" name="${f}" ${mode === "add" && f === "employeeNumber" ? "" : ""} ${f === "employeeNumber" && mode === "edit" ? "readonly disabled" : ""} required>`;
+                    fieldHtml += `<option value="">Select</option>`;
+                    employeeSelectFields[f].forEach(opt => {
+                        let selected = values[f] == opt ? "selected" : "";
+                        fieldHtml += `<option value="${opt}" ${selected}>${opt}</option>`;
+                    });
+                    fieldHtml += "</select>";
+                } else if (employeeFieldTypes[f] === "number") {
+                    fieldHtml += `<input type="number" class="form-control" name="${f}" value="${values[f] !== undefined ? values[f] : ""}" ${f === "employeeNumber" && mode === "edit" ? "readonly" : ""} required>`;
+                } else {
+                    fieldHtml += `<input type="text" class="form-control" name="${f}" value="${values[f] !== undefined ? values[f] : ""}" ${f === "employeeNumber" && mode === "edit" ? "readonly" : ""} required>`;
+                }
+                col.innerHTML = fieldHtml;
+                fieldsDiv.appendChild(col);
+            });
+
+            document.getElementById("employeeModalLabel").textContent = mode === "add" ? "Add Employee" : "Edit Employee";
+            document.getElementById("employee-modal-submit-btn").textContent = mode === "add" ? "Add" : "Update";
+            document.getElementById("employee-modal-form").setAttribute("data-mode", mode);
+            document.getElementById("employee-modal-form").setAttribute("data-empno", employeeNumber !== null ? employeeNumber : "");
+
+            new bootstrap.Modal(document.getElementById('employeeModal')).show();
+        }
+
+        document.getElementById("employee-modal-form").onsubmit = async function (e) {
+            e.preventDefault();
+            const mode = this.getAttribute("data-mode");
+            const empNo = this.getAttribute("data-empno");
+            const formData = new FormData(this);
+            const employee = {};
+            employeeFields.forEach(k => employee[k] = formData.get(k) !== null ? formData.get(k) : "");
+            // Sayısal alanları otomatik sayıya çevir
+            ["employeeNumber", "age", "dailyRate", "distanceFromHome", "education", "employeeCount", "environmentSatisfaction", "hourlyRate", "jobInvolvement", "jobLevel", "jobSatisfaction", "monthlyIncome", "monthlyRate", "numCompaniesWorked", "percentSalaryHike", "performanceRating", "relationshipSatisfaction", "standardHours", "stockOptionLevel", "totalWorkingYears", "trainingTimesLastYear", "workLifeBalance", "yearsAtCompany", "yearsInCurrentRole", "yearsSinceLastPromotion", "yearsWithCurrManager"].forEach(k => {
+                if (employee[k] && employee[k] !== "") employee[k] = Number(employee[k]);
+            });
+
+            let url = "http://localhost:5216/api/employee";
+            let method = "POST";
+
+            if (mode === "edit" && empNo) {
+                url += "/" + empNo;
+                method = "PUT";
+            }
+
+            const res = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(employee)
+            });
+            if (res.ok) {
+                bootstrap.Modal.getInstance(document.getElementById('employeeModal')).hide();
+                fetchEmployees();
+            } else {
+                alert(mode === "add" ? "Employee could not be added. Please check your data." : "Employee could not be updated. Please check your data.");
+            }
+        };
+
+        async function deleteEmployee(employeeNumber) {
+            if (confirm("Delete this employee?")) {
+                await fetch("http://localhost:5216/api/employee/" + employeeNumber, { method: "DELETE" });
+                fetchEmployees();
+            }
+        }
+
+        // --- Employee API END ---
 
 
-// --- Transactions API ---
-async function fetchTransactions() {
-    const res = await fetch(apiBase + "/transaction");
-    const data = await res.json();
-    const tbody = document.getElementById("transactions-table");
-    tbody.innerHTML = "";
-    data.forEach(t => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
+        // --- Transactions API ---
+        // Genel: tabloyu doldurucu
+        function renderTransactionsTable(data) {
+            const tbody = document.getElementById("transactions-table");
+            tbody.innerHTML = "";
+            data.forEach(t => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
             <td>${t.id}</td>
             <td>${t.employeeNumber}</td>
             <td>${t.amount}</td>
@@ -473,85 +537,151 @@ async function fetchTransactions() {
                 <button class="btn btn-sm btn-info" onclick="convertTransaction(${t.id})">Convert</button>
             </td>
         `;
-        tbody.appendChild(tr);
-    });
-}
-function editTransaction(t) {
-    document.getElementById("transaction-id").value = t.id;
-    document.getElementById("transEmployeeNumber").value = t.employeeNumber;
-    document.getElementById("amount").value = t.amount;
-    document.getElementById("category").value = t.category;
-    document.getElementById("description").value = t.description;
-    document.getElementById("transactionDate").value = t.transactionDate ? t.transactionDate.substring(0,16) : "";
-    document.getElementById("add-update-btn").textContent = "Update";
-}
-document.getElementById("transaction-form").onsubmit = async function(e) {
-    e.preventDefault();
-    const id = document.getElementById("transaction-id").value;
-    const t = {
-        employeeNumber: +document.getElementById("transEmployeeNumber").value,
-        amount: +document.getElementById("amount").value,
-        category: document.getElementById("category").value,
-        description: document.getElementById("description").value,
-        transactionDate: document.getElementById("transactionDate").value
-    };
-    let url = apiBase + "/transaction";
-    let method = "POST";
-    if (id) {
-        t.id = +id;
-        url += "/" + id;
-        method = "PUT";
-    }
-    await fetch(url, {
-        method,
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(t)
-    });
-    fetchTransactions();
-    this.reset();
-    document.getElementById("transaction-id").value = "";
-    document.getElementById("add-update-btn").textContent = "Add";
-};
-async function deleteTransaction(id) {
-    if (confirm("Delete this transaction?")) {
-        await fetch(apiBase + "/transaction/" + id, { method: "DELETE" });
-        fetchTransactions();
-    }
-}
-function convertTransaction(id) {
-    document.getElementById("currencyTransactionId").value = id;
-    showCurrencyModal();
-}
+                tbody.appendChild(tr);
+            });
+            document.getElementById("transactions-summary").innerHTML = "";
+        }
 
-// --- Currency Modal ---
-function showCurrencyModal() {
-    new bootstrap.Modal(document.getElementById('currencyModal')).show();
-    document.getElementById("currency-form").reset();
-    document.getElementById("currencyResult").innerHTML = "";
-}
-document.getElementById("currency-form").onsubmit = async function(e) {
-    e.preventDefault();
-    const id = document.getElementById("currencyTransactionId").value;
-    const target = document.getElementById("currencyTarget").value;
-    const res = await fetch(`${apiBase}/transaction/convert/${id}/${target}`);
-    if(res.ok) {
-        const data = await res.json();
-        document.getElementById("currencyResult").innerHTML =
-            `Result: <b>${data.convertedAmount} ${data.targetCurrency}</b> <small>(${data.originalAmount} ${data.originalCurrency})</small>`;
-    } else {
-        document.getElementById("currencyResult").innerHTML = "<span class='text-danger'>Conversion failed.</span>";
-    }
-};
+        // 1. Tüm işlemler (çalışan bağımsız)
+        async function fetchAllTransactions() {
+            const res = await fetch(apiBase + "/transaction");
+            const data = await res.json();
+            renderTransactionsTable(data);
+        }
 
-// --- Transfers API ---
-async function fetchTransfers() {
-    const res = await fetch(apiBase + "/transfer");
-    const data = await res.json();
-    const tbody = document.getElementById("transfers-table");
-    tbody.innerHTML = "";
-    data.forEach(t => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
+        // 2. Belirli çalışanın tüm işlemleri
+        async function fetchEmployeeTransactions() {
+            const empNo = document.getElementById("filterEmployeeNumber").value;
+            if (!empNo) { alert("Employee No giriniz."); return; }
+            const res = await fetch(`${apiBase}/transaction/all?employeeNumber=${empNo}`);
+            const data = await res.json();
+            renderTransactionsTable(data);
+        }
+
+        // 3. Filtreli işlemler (kategori ve/veya tarih aralığı)
+        async function fetchFilteredTransactions(employeeNumber, category, start, end) {
+            let url = `${apiBase}/transaction/filter?employeeNumber=${employeeNumber}`;
+            if (category) url += `&category=${encodeURIComponent(category)}`;
+            if (start) url += `&start=${start}`;
+            if (end) url += `&end=${end}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            renderTransactionsTable(data);
+        }
+
+        // 4. Kategori özeti (çalışan bazında)
+        async function fetchSummaryByCategory() {
+            const empNo = document.getElementById("filterEmployeeNumber").value;
+            if (!empNo) { alert("Employee No giriniz."); return; }
+            const res = await fetch(`${apiBase}/transaction/summary/by-category?employeeNumber=${empNo}`);
+            const data = await res.json();
+            let html = `<table class="table table-bordered"><thead><tr><th>Category</th><th>Total Amount</th><th>Count</th></tr></thead><tbody>`;
+            data.forEach(r => {
+                html += `<tr>
+            <td>${r.category || r.Category}</td>
+            <td>${r.totalAmount ?? r.TotalAmount}</td>
+            <td>${r.count ?? r.Count}</td>
+        </tr>`;
+            });
+            html += "</tbody></table>";
+            document.getElementById("transactions-summary").innerHTML = html;
+            document.getElementById("transactions-table").innerHTML = "";
+        }
+
+        // Filtre formu: submit olunca çalışsın
+        document.getElementById("transaction-filter-form").onsubmit = function (e) {
+            e.preventDefault();
+            const employeeNumber = document.getElementById("filterEmployeeNumber").value;
+            const category = document.getElementById("filterCategory").value;
+            const start = document.getElementById("filterStartDate").value;
+            const end = document.getElementById("filterEndDate").value;
+            if (!employeeNumber) { alert("Employee No giriniz."); return; }
+            fetchFilteredTransactions(employeeNumber, category, start, end);
+        };
+
+        // Varsayılan olarak tüm işlemler gelsin
+        function fetchTransactions() {
+            fetchAllTransactions();
+        }
+
+        function editTransaction(t) {
+            document.getElementById("transaction-id").value = t.id;
+            document.getElementById("transEmployeeNumber").value = t.employeeNumber;
+            document.getElementById("amount").value = t.amount;
+            document.getElementById("category").value = t.category;
+            document.getElementById("description").value = t.description;
+            document.getElementById("transactionDate").value = t.transactionDate ? t.transactionDate.substring(0, 16) : "";
+            document.getElementById("add-update-btn").textContent = "Update";
+        }
+
+        document.getElementById("transaction-form").onsubmit = async function (e) {
+            e.preventDefault();
+            const id = document.getElementById("transaction-id").value;
+            const t = {
+                employeeNumber: +document.getElementById("transEmployeeNumber").value,
+                amount: +document.getElementById("amount").value,
+                category: document.getElementById("category").value,
+                description: document.getElementById("description").value,
+                transactionDate: document.getElementById("transactionDate").value
+            };
+            let url = apiBase + "/transaction";
+            let method = "POST";
+            if (id) {
+                t.id = +id;
+                url += "/" + id;
+                method = "PUT";
+            }
+            await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(t)
+            });
+            fetchTransactions();
+            this.reset();
+            document.getElementById("transaction-id").value = "";
+            document.getElementById("add-update-btn").textContent = "Add";
+        };
+
+        async function deleteTransaction(id) {
+            if (confirm("Delete this transaction?")) {
+                await fetch(apiBase + "/transaction/" + id, { method: "DELETE" });
+                fetchTransactions();
+            }
+        }
+        function convertTransaction(id) {
+            document.getElementById("currencyTransactionId").value = id;
+            showCurrencyModal();
+        }
+
+        // --- Currency Modal ---
+        function showCurrencyModal() {
+            new bootstrap.Modal(document.getElementById('currencyModal')).show();
+            document.getElementById("currency-form").reset();
+            document.getElementById("currencyResult").innerHTML = "";
+        }
+        document.getElementById("currency-form").onsubmit = async function (e) {
+            e.preventDefault();
+            const id = document.getElementById("currencyTransactionId").value;
+            const target = document.getElementById("currencyTarget").value;
+            const res = await fetch(`${apiBase}/transaction/convert/${id}/${target}`);
+            if (res.ok) {
+                const data = await res.json();
+                document.getElementById("currencyResult").innerHTML =
+                    `Result: <b>${data.convertedAmount} ${data.targetCurrency}</b> <small>(${data.originalAmount} ${data.originalCurrency})</small>`;
+            } else {
+                document.getElementById("currencyResult").innerHTML = "<span class='text-danger'>Conversion failed.</span>";
+            }
+        };
+
+        // --- Transfers API ---
+        async function fetchTransfers() {
+            const res = await fetch(apiBase + "/transfer");
+            const data = await res.json();
+            const tbody = document.getElementById("transfers-table");
+            tbody.innerHTML = "";
+            data.forEach(t => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
             <td>${t.id}</td>
             <td>${t.fromEmployeeNumber}</td>
             <td>${t.toEmployeeNumber ?? ""}</td>
@@ -564,61 +694,62 @@ async function fetchTransfers() {
                 <button class="btn btn-sm btn-danger" onclick="deleteTransfer(${t.id})">Delete</button>
             </td>
         `;
-        tbody.appendChild(tr);
-    });
-}
-function editTransfer(t) {
-    document.getElementById("transfer-id").value = t.id;
-    document.getElementById("fromEmployeeNumber").value = t.fromEmployeeNumber;
-    document.getElementById("toEmployeeNumber").value = t.toEmployeeNumber ?? "";
-    document.getElementById("externalBankIban").value = t.externalBankIban ?? "";
-    document.getElementById("transferAmount").value = t.amount;
-    document.getElementById("transferDescription").value = t.description;
-    document.getElementById("transferDate").value = t.transferDate ? t.transferDate.substring(0,16) : "";
-    document.getElementById("add-update-transfer-btn").textContent = "Update";
-}
-document.getElementById("transfer-form").onsubmit = async function(e) {
-    e.preventDefault();
-    const id = document.getElementById("transfer-id").value;
-    const t = {
-        fromEmployeeNumber: +document.getElementById("fromEmployeeNumber").value,
-        toEmployeeNumber: document.getElementById("toEmployeeNumber").value ? +document.getElementById("toEmployeeNumber").value : null,
-        externalBankIban: document.getElementById("externalBankIban").value || null,
-        amount: +document.getElementById("transferAmount").value,
-        description: document.getElementById("transferDescription").value,
-        transferDate: document.getElementById("transferDate").value
-    };
-    let url = apiBase + "/transfer";
-    let method = "POST";
-    if (id) {
-        t.id = +id;
-        url += "/" + id;
-        method = "PUT";
-    }
-    const res = await fetch(url, {
-        method,
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(t)
-    });
-    if(res.ok) {
-        fetchTransfers();
-        this.reset();
-        document.getElementById("transfer-id").value = "";
-        document.getElementById("add-update-transfer-btn").textContent = "Add";
-    } else {
-        const msg = await res.text();
-        alert("Operation failed: " + msg);
-    }
-};
-async function deleteTransfer(id) {
-    if (confirm("Delete this transfer?")) {
-        await fetch(apiBase + "/transfer/" + id, { method: "DELETE" });
-        fetchTransfers();
-    }
-}
+                tbody.appendChild(tr);
+            });
+        }
+        function editTransfer(t) {
+            document.getElementById("transfer-id").value = t.id;
+            document.getElementById("fromEmployeeNumber").value = t.fromEmployeeNumber;
+            document.getElementById("toEmployeeNumber").value = t.toEmployeeNumber ?? "";
+            document.getElementById("externalBankIban").value = t.externalBankIban ?? "";
+            document.getElementById("transferAmount").value = t.amount;
+            document.getElementById("transferDescription").value = t.description;
+            document.getElementById("transferDate").value = t.transferDate ? t.transferDate.substring(0, 16) : "";
+            document.getElementById("add-update-transfer-btn").textContent = "Update";
+        }
+        document.getElementById("transfer-form").onsubmit = async function (e) {
+            e.preventDefault();
+            const id = document.getElementById("transfer-id").value;
+            const t = {
+                fromEmployeeNumber: +document.getElementById("fromEmployeeNumber").value,
+                toEmployeeNumber: document.getElementById("toEmployeeNumber").value ? +document.getElementById("toEmployeeNumber").value : null,
+                externalBankIban: document.getElementById("externalBankIban").value || null,
+                amount: +document.getElementById("transferAmount").value,
+                description: document.getElementById("transferDescription").value,
+                transferDate: document.getElementById("transferDate").value
+            };
+            let url = apiBase + "/transfer";
+            let method = "POST";
+            if (id) {
+                t.id = +id;
+                url += "/" + id;
+                method = "PUT";
+            }
+            const res = await fetch(url, {
+                method,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(t)
+            });
+            if (res.ok) {
+                fetchTransfers();
+                this.reset();
+                document.getElementById("transfer-id").value = "";
+                document.getElementById("add-update-transfer-btn").textContent = "Add";
+            } else {
+                const msg = await res.text();
+                alert("Operation failed: " + msg);
+            }
+        };
+        async function deleteTransfer(id) {
+            if (confirm("Delete this transfer?")) {
+                await fetch(apiBase + "/transfer/" + id, { method: "DELETE" });
+                fetchTransfers();
+            }
+        }
 
-// Uygulama açıldığında ana ekran gelsin
-showSection('home');
-</script>
+        // Uygulama açıldığında ana ekran gelsin
+        showSection('home');
+    </script>
 </body>
+
 </html>

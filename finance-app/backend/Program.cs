@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<ICurrencyService, MockCurrencyService>();
 builder.Services.AddScoped<IExternalBankService, MockExternalBankService>();
+builder.Services.AddHttpClient<ICurrencyService, FrankfurterCurrencyService>();
 
 builder.Services.AddDbContext<FinanceAppDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")))

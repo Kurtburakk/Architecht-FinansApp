@@ -94,7 +94,7 @@
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/backend.MvcApplicationPartsAssemblyInfo.cache
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/backend.sourcelink.json
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/scopedcss/bundle/backend.styles.css
-/Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/compressed/0yulyb0yu6-bzbtf2obfi.gz
+/Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/compressed/0yulyb0yu6-c8njjebtal.gz
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/staticwebassets.build.json
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/staticwebassets.build.json.cache
 /Users/burakkurt/Desktop/Architecht-FinansApp/finance-app/backend/obj/Debug/net9.0/staticwebassets.development.json
