@@ -1,50 +1,52 @@
-# Architecht-FinansApp
+Architecht-FinansApp
 
-Modern bir finans uygulaması - ASP.NET Core Web API backend ile geliştirilmiş çalışan ve finans yönetim sistemi.
+A modern finance application – a working employee and finance management system 
+developed with an ASP.NET Core Web API backend.
 
-## 🚀 Proje Hakkında
+About the Project
 
-Bu proje, çalışan bilgilerini yönetmek, finansal işlemler gerçekleştirmek ve para transferleri yapmak için geliştirilmiş kapsamlı bir finans uygulamasıdır. Uygulama, modern web teknolojileri kullanılarak geliştirilmiş ve RESTful API mimarisi benimsenmiştir.
+This project is a comprehensive finance application developed to manage employee information, 
+perform financial transactions, and execute money transfers. The application is built using modern web technologies 
+and follows a RESTful API architecture.
 
-## 🛠️ Teknolojiler
+Technologies
 
-### Backend
-- **ASP.NET Core 9.0** - Web API Framework
-- **Entity Framework Core 8.0** - ORM
-- **MySQL** - Veritabanı (Pomelo.EntityFrameworkCore.MySql)
-- **CsvHelper** - CSV dosya işlemleri
-- **Swagger/OpenAPI** - API dokümantasyonu
-- **C#** - Programlama dili
+Backend
+ASP.NET Core 9.0 – Web API Framework
+Entity Framework Core 8.0 – ORM
+MySQL – Database (Pomelo.EntityFrameworkCore.MySql)
+CsvHelper – For CSV file operations
+Swagger/OpenAPI – API documentation
+C# – Programming language
 
-### Frontend
-- **HTML5/CSS3** - Web arayüzü
-- **JavaScript** - Client-side logic
-- **Bootstrap 5** - UI Framework
-- **Responsive Design** - Mobil uyumlu tasarım
+Frontend
+HTML5/CSS3 – Web interface
+JavaScript – Client-side logic
+Bootstrap 5 – UI Framework
+Responsive Design – Mobile-friendly layout
 
-## 🎯 Özellikler
+Features
 
-### 👥 Çalışan Yönetimi
-- Çalışan bilgilerini görüntüleme, ekleme, güncelleme ve silme
-- CSV dosyandan çalışan verilerini otomatik yükleme
-- Çalışan numarasına göre arama
-- Detaylı çalışan profil bilgileri
+Employee Management
+View, add, update, and delete employee information
+Automatically load employee data from CSV files
+Search by employee number
+Detailed employee profile information
 
-### 💰 Finansal İşlemler
-- Para yatırma ve çekme işlemleri
-- İşlem geçmişi takibi
-- Kategorize edilmiş işlemler
-- Döviz kuru entegrasyonu
+Financial Transactions
+Deposit and withdrawal operations
+Transaction history tracking
+Categorized transactions
+Foreign exchange rate integration
 
-### 🔄 Para Transferleri
-- Çalışanlar arası para transferi
-- Dış banka transferleri
-- Transfer işlem geçmişi
-- Güvenli transfer doğrulama
+Money Transfers
+Transfers between employees
+External bank transfers
+Transfer history
+Secure transfer verification
 
-## 🚀 Kurulum ve Çalıştırma
-
-### Ön Gereksinimler
-- [.NET 9.0 SDK](https://dotnet.microsoft.com/download)
-- [MySQL Server](https://dev.mysql.com/downloads/)
-- [Visual Studio Code](https://code.visualstudio.com/) veya [Visual Studio](https://visualstudio.microsoft.com/)
+Setup and Running
+Prerequisites
+.NET 9.0 SDK
+MySQL Server
+Visual Studio Code or Visual Studio
